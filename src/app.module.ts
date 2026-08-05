@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { HttpExceptionFilter } from './common/errors/http-exception.filter';
-import { FileLoggerService } from './common/logging/file-logger.service';
+import { LoggingModule } from './common/logging/logging.module';
 import { RequestLoggingInterceptor } from './common/logging/request-logging.interceptor';
 import { JobsModule } from './jobs/jobs.module';
 
 @Module({
-  imports: [JobsModule],
+  imports: [ScheduleModule.forRoot(), LoggingModule, JobsModule],
   providers: [
-    FileLoggerService,
     {
       provide: APP_INTERCEPTOR,
       useClass: RequestLoggingInterceptor,
