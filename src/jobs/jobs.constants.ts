@@ -1,0 +1,6 @@
+export const JOBS_DATABASE = Symbol('JOBS_DATABASE');
+
+export const DEFAULT_JOB_BATCH_SIZE = 5;
+export const DEFAULT_JOB_INTERVAL_MS = 10_000;
+export const DEFAULT_JOB_LEASE_MS = 60_000;
+export const DEFAULT_JOB_PROCESSING_DELAY_MS = 100;
