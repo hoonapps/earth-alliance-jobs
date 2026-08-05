@@ -294,17 +294,35 @@ COMMIT;
 ## 테스트
 
 ```bash
-# Repository, scheduler, API e2e 전체
+# 전체 단위 테스트와 API e2e 테스트를 한 번 실행
 npm test
 
-# API e2e만 실행
+# 파일 변경을 감지해 관련 테스트 반복 실행
+npm run test:watch
+
+# API e2e 테스트만 실행
 npm run test:e2e
 
-# 커버리지 포함
+# 전체 테스트와 커버리지 검증
 npm run test:cov
 ```
 
 테스트는 운영 `jobs.json`을 건드리지 않고 OS 임시 디렉터리에 독립된 JSON 및 로그 파일을 생성합니다.
+
+현재 검증 결과는 다음과 같습니다.
+
+| 항목 | 결과 |
+|---|---:|
+| 테스트 스위트 | 9개 통과 |
+| 테스트 케이스 | 46개 통과 |
+| Statements | 100% |
+| Branches | 100% |
+| Functions | 100% |
+| Lines | 100% |
+
+`jest.config.json`의 global coverage threshold를 네 지표 모두 100%로 설정했습니다. 이후 미검증 코드가 추가되어 한 지표라도 100% 아래로 내려가면 `npm run test:cov`가 실패합니다.
+
+커버리지는 실행 로직이 있는 Controller, Service, Repository, Scheduler, Processor, 전역 오류 처리 및 로깅 계층을 대상으로 합니다. 애플리케이션 bootstrap인 `main.ts`, 선언적 Nest module wiring, 검증 decorator만 선언하는 DTO와 TypeScript 모델 선언은 집계에서 제외했습니다. DTO 검증과 module wiring 자체는 실제 `AppModule`을 기동하는 e2e 테스트에서 검증합니다.
 
 검증하는 주요 시나리오는 다음과 같습니다.
 
@@ -317,6 +335,11 @@ npm run test:cov
 - lease 만료 후 재선점 및 오래된 claim token 거절
 - 작업별 성공·실패 격리
 - 이전 스케줄 실행과 겹친 tick 건너뛰기
+- 스케줄러 비활성 설정과 저장소 장애 전파
+- stale claim의 성공·실패 결과 덮어쓰기 방지
+- 로그 파일 쓰기 실패 격리와 다음 로그 복구
+- 손상된 JSON 루트 감지
+- 실패 작업 재시도 시 처리 메타데이터 초기화
 
 ## 프로젝트 구조
 
