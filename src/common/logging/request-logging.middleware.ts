@@ -1,21 +1,12 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
-import { Request, Response } from 'express';
-import { Observable } from 'rxjs';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { NextFunction, Request, Response } from 'express';
 import { FileLoggerService } from './file-logger.service';
 
 @Injectable()
-export class RequestLoggingInterceptor implements NestInterceptor {
+export class RequestLoggingMiddleware implements NestMiddleware {
   constructor(private readonly logger: FileLoggerService) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
-    const http = context.switchToHttp();
-    const request = http.getRequest<Request>();
-    const response = http.getResponse<Response>();
+  use(request: Request, response: Response, next: NextFunction): void {
     const startedAt = process.hrtime.bigint();
 
     response.once('finish', () => {
@@ -30,6 +21,6 @@ export class RequestLoggingInterceptor implements NestInterceptor {
         .catch(() => undefined);
     });
 
-    return next.handle();
+    next();
   }
 }

@@ -123,6 +123,10 @@ describe('Jobs API (e2e)', () => {
     });
   });
 
+  it('존재하지 않는 라우트도 404로 처리한다', async () => {
+    await request(app.getHttpServer()).get('/unknown-route').expect(404);
+  });
+
   it('PATCH /jobs/:id에서 pending 작업을 수정한다', async () => {
     const response = await request(app.getHttpServer())
       .patch(`/jobs/${createdId}`)
@@ -169,7 +173,7 @@ describe('Jobs API (e2e)', () => {
       .map((line) => JSON.parse(line) as Record<string, unknown>)
       .filter((entry) => entry.event === 'http.request');
 
-    expect(requestLogs.length).toBeGreaterThanOrEqual(11);
+    expect(requestLogs.length).toBeGreaterThanOrEqual(12);
     expect(requestLogs).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -180,6 +184,11 @@ describe('Jobs API (e2e)', () => {
         expect.objectContaining({
           method: 'GET',
           path: '/jobs/not-found',
+          statusCode: 404,
+        }),
+        expect.objectContaining({
+          method: 'GET',
+          path: '/unknown-route',
           statusCode: 404,
         }),
       ]),
