@@ -1,3 +1,32 @@
 {
-  "jobs": []
+  "jobs": [
+    {
+      "id": "f3f1bb8d-145b-4ee4-8cf2-0f6f56941779",
+      "title": "신규 회원 안내 메일 발송",
+      "description": "신규 가입 회원에게 서비스 안내 메일을 발송합니다.",
+      "status": "pending",
+      "attempts": 0,
+      "createdAt": "2026-08-05T00:00:00.000Z",
+      "updatedAt": "2026-08-05T00:00:00.000Z",
+      "startedAt": null,
+      "completedAt": null,
+      "failureReason": null,
+      "claimToken": null,
+      "leaseUntil": null
+    },
+    {
+      "id": "49f09366-03f0-48ea-8387-d66055318e5f",
+      "title": "일일 통계 생성",
+      "description": "전일 작업 처리 통계를 생성합니다.",
+      "status": "completed",
+      "attempts": 1,
+      "createdAt": "2026-08-04T00:00:00.000Z",
+      "updatedAt": "2026-08-04T00:01:00.000Z",
+      "startedAt": "2026-08-04T00:00:10.000Z",
+      "completedAt": "2026-08-04T00:01:00.000Z",
+      "failureReason": null,
+      "claimToken": null,
+      "leaseUntil": null
+    }
+  ]
 }

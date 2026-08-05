@@ -12,9 +12,9 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:prod": "node dist/main.js",
-    "test": "jest --runInBand",
+    "test": "jest --config ./jest.config.json --runInBand",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage --runInBand",
+    "test:cov": "jest --config ./jest.config.json --coverage --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand"
   },
   "dependencies": {
